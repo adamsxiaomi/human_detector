@@ -1,0 +1,11 @@
+*.o
+/ble_app_uart_pca10040_s132_nrf52832_xxaa.dep
+/nrf52832_xxaa.axf
+/nrf52832_xxaa.build_log.htm
+/nrf52832_xxaa.hex
+/nrf52832_xxaa.htm
+/nrf52832_xxaa.lnp
+/nrf52832_xxaa.map
+/ExtDll.iex
+/nrf52832_xxaa.sct
+/nrf52832_xxaa_sct.Bak
