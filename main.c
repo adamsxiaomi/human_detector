@@ -82,7 +82,7 @@
 
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 
-#define DEVICE_NAME                     "ADAMS-TESTER"                               /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "NEW-ADAMS-TESTER"                               /**< Name of device. Will be included in the advertising data. */
 #define NUS_SERVICE_UUID_TYPE           BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the Nordic UART Service (vendor specific). */
 
 #define APP_BLE_OBSERVER_PRIO           3                                           /**< Application's BLE observer priority. You shouldn't need to modify this value. */
@@ -118,11 +118,10 @@ static ble_uuid_t m_adv_uuids[]          =                                      
 };
 
 
-#if defined (DFU_SUPPORT)
+#if DFU_BLE_SUPPORT
 #include "ble_dfu.h"
 #include "nrf_power.h"
 #include "nrf_sdm.h"
-
 
 #define BLE_DFU_SERVICE_UUID            0xFE59                      /**< The 16-bit UUID of the Secure DFU Service. */
 
@@ -391,7 +390,7 @@ static void services_init(void)
     err_code = ble_nus_init(&m_nus, &nus_init);
     APP_ERROR_CHECK(err_code);
 
-#if defined (DFU_SUPPORT)
+#if DFU_BLE_SUPPORT
     ble_dfu_buttonless_init_t dfus_init = {0};
     dfus_init.evt_handler = ble_dfu_evt_handler;
     err_code = ble_dfu_buttonless_init(&dfus_init);
@@ -460,19 +459,19 @@ static void conn_params_init(void)
  *
  * @note This function will not return.
  */
-static void sleep_mode_enter(void)
-{
-    uint32_t err_code = bsp_indication_set(BSP_INDICATE_IDLE);
-    APP_ERROR_CHECK(err_code);
+//static void sleep_mode_enter(void)
+//{
+//    uint32_t err_code = bsp_indication_set(BSP_INDICATE_IDLE);
+//    APP_ERROR_CHECK(err_code);
 
-    // Prepare wakeup buttons.
-    err_code = bsp_btn_ble_sleep_mode_prepare();
-    APP_ERROR_CHECK(err_code);
+//    // Prepare wakeup buttons.
+//    err_code = bsp_btn_ble_sleep_mode_prepare();
+//    APP_ERROR_CHECK(err_code);
 
-    // Go to system-off mode (this function will not return; wakeup will cause a reset).
-    err_code = sd_power_system_off();
-    APP_ERROR_CHECK(err_code);
-}
+//    // Go to system-off mode (this function will not return; wakeup will cause a reset).
+//    err_code = sd_power_system_off();
+//    APP_ERROR_CHECK(err_code);
+//}
 
 
 /**@brief Function for handling advertising events.
@@ -838,6 +837,7 @@ static void idle_state_handle(void)
  */
 static void advertising_start(void)
 {
+    NRF_LOG_INFO("advertising_start");
     uint32_t err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
     APP_ERROR_CHECK(err_code);
 }
@@ -863,8 +863,7 @@ int main(void)
     conn_params_init();
 
     // Start execution.
-    printf("\r\nUART started.\r\n");
-    NRF_LOG_INFO("NOTHING");
+    printf("UART started.\r\n");
     NRF_LOG_INFO("INFO logging for UART over RTT started.");
     NRF_LOG_DEBUG("Debug logging for UART over RTT started.");
     advertising_start();
